@@ -3,7 +3,15 @@
             [clojure.string :as str]))
 
 (defn snapshot-path [test-name]
-  (str "snapshot/" test-name))
+  (let [test-var (first clojure.test/*testing-vars*)
+        test-file (some-> test-var meta :file)
+        test-file-stem (if (str/blank? test-file)
+                         "unknown_test"
+                         (-> test-file
+                             io/file
+                             .getName
+                             (str/replace #"\.clj[cs]?$" "")))]
+    (str "test/snapshots/" test-file-stem "/" test-name ".snap")))
 
 (defn create-snapshot-file! [test-name content]
   (let [snap-file (snapshot-path test-name)]

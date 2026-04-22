@@ -2,6 +2,10 @@
   (:require [clojure.test :refer :all]
             [clj-snapshot-test.core :refer :all]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest snapshot-test
+  (testing "snapshot assertion plugs into is"
+    (is (matches-snapshot "test snapshot" (str "aaaaaaaa")))))
+
+(deftest snapshot-test-2
+  (testing "snapshot assertion plugs into is"
+    (is (matches-snapshot "test snapshot 2" (str "aaaaaaaa")))))
